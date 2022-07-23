@@ -17,6 +17,7 @@ class ExpressServer {
         this._routes();
         this._notFound();
         this._errrorHandler();
+        //this._myAplicattionError(statusCode);// TO DO
     }
 
     _middlewares() {
@@ -49,6 +50,14 @@ const body = {
     }
 }
 res.json(body);
+/*
+res.status(code).json({
+    error: {
+        code,
+        message: err.message
+    }
+});
+*/
 });
     }
 
