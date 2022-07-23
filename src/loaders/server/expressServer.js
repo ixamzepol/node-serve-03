@@ -14,12 +14,12 @@ class ExpressServer {
         this.basePathUser = `${config.api.prefix}/users`;
 
         this._middlewares();
-
+        this._swaggerConfig();
         this._routes();
         this._notFound();
         this._errrorHandler();
         //this._myAplicattionError(statusCode);// TO DO
-        this._swaggerConfig();
+       
     }
 
     _middlewares() {
