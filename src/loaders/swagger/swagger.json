@@ -1,250 +1,162 @@
 {
-  "openapi": "3.0..0",
+  "openapi": "3.0.0",
   "info": {
-    "title": "API Rest base repo",
-    "description": "This is an api base to start new proyects",
-    "version": "0.0.1"
+    "title": "API Rest base repo.",
+    "description": "## This is a base api to start new projects.",
+    "version": "0.0.1",
+    "contact": {
+      "email": "fervaldes11@gmail.com"
+    }
   },
-  "servers": [
+  
+  "servers":[
     {
-      "url": "http://localhost:4000/api/v1",
-      "description": "Development"  
-        },
+      "url":"http://localhost:4000/api/v1",
+      "description": "Desarrollo"  
+    },
     {
-      "url": "https://node-rest-03.herokuapp.com/api/v1",
-      "description": "Production"  
-        }
+      "url":"https://node-06-restserver.herokuapp.com/api/v1",
+      "description": "Producción"  
+    } 
   ],
-  "schemes": [
-    "http",
-    "https"
+  "tags": [    
+    {
+      "name": "users",
+      "description": "Operations about users."
+    }
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "paths": {
-    "/ops/features": {
+  "paths": {    
+    "/users/": {
       "get": {
-        "summary": "GET /ops/features",
-        "operationId": "ListFeatures",
+        "tags": [
+          "users"
+        ],
+        "summary": "Get a list of all existing users.",
+        "description": "",             
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/featureListFeaturesResponse"
+            "description": "The array of users in JSON format.",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "type": "array",
+                  "items":{
+                    "$ref": "#/components/schemas/User"                    
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Create a new user.",
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             }
           }
         },
-        "tags": [
-          "Generic"
-        ]
+        "responses": {
+          "201": {
+            "description": "User created."
+          }
+        }
       }
     },
-    "/ops/features/{uuid}": {
+    "/users/{id}": {
       "put": {
-        "summary": "PUT /ops/features/:uuid",
-        "operationId": "UpdateFeature",
+        "tags": [
+          "users"
+        ],
+        "summary": "Update an existing user by providing the id.",
+        "description": "",           
+        "parameters":[          
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the user that needs to be updated.",
+            "required": true,
+            "schema": {
+              "type":"integer"
+            }
+          }          
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }, 
         "responses": {
           "200": {
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/featureUpdateFeatureResponse"
+            "description": "The user updated",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "$ref": "#/components/schemas/User" 
+                }
+              }              
             }
           }
-        },
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "format": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/protobufStruct"
-            }
-          }
-        ],
+        }
+      },
+      "delete": {
         "tags": [
-          "Generic"
-        ]
+          "users"
+        ],
+        "summary": "Delete an existing user by providing the id.",
+        "description": "",
+        "parameters":[          
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The id of the user that needs to be deleted.",
+            "required": true,
+            "schema": {
+              "type":"integer"
+            }
+          }          
+        ],     
+        "responses": {
+          "200": {
+            "description": "User deleted."
+          }
+        }
       }
     }
   },
-  "definitions": {
-    "featureFeature": {
-      "type": "object",
-      "properties": {
-        "app_id": {
-          "type": "string",
-          "format": "string"
-        },
-        "args": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "string"
-          }
-        },
-        "enabled": {
-          "type": "boolean",
-          "format": "boolean"
-        },
-        "extra_data": {
-          "$ref": "#/definitions/protobufStruct",
-          "title": "extra data can be any json data\nFor parnter(特权专区) feature it shold be\nrepeated PartnerExtra extra_data = 10"
-        },
-        "method": {
-          "$ref": "#/definitions/featureFeatureFetchMethod"
-        },
-        "requirements": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "format": "string"
-          }
-        },
-        "type": {
-          "$ref": "#/definitions/featureFeatureType"
-        },
-        "updated_at": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "uuid": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
-    "featureFeatureFetchMethod": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN_METHOD",
-        "GET"
-      ],
-      "default": "UNKNOWN_METHOD"
-    },
-    "featureFeatureType": {
-      "type": "string",
-      "enum": [
-        "UNKNOWN_FEATURE_TYPE",
-        "URL"
-      ],
-      "default": "UNKNOWN_FEATURE_TYPE"
-    },
-    "featureListFeaturesRequest": {
-      "type": "object"
-    },
-    "featureListFeaturesResponse": {
-      "type": "object",
-      "properties": {
-        "features": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/featureFeature"
-          }
-        }
-      }
-    },
-    "featureUpdateFeatureRequest": {
-      "type": "object",
-      "properties": {
-        "extra_data": {
-          "$ref": "#/definitions/protobufStruct"
-        },
-        "token": {
-          "type": "string",
-          "format": "string"
-        },
-        "uuid": {
-          "type": "string",
-          "format": "string"
-        }
-      }
-    },
-    "featureUpdateFeatureResponse": {
-      "type": "object",
-      "properties": {
-        "feature": {
-          "$ref": "#/definitions/featureFeature"
-        }
-      }
-    },
-    "protobufListValue": {
-      "type": "object",
-      "properties": {
-        "values": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/protobufValue"
+  "components": {
+    "schemas": {
+      "User": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id":{
+            "description": "The user id.",
+            "type": "integer",          
+            "example": "3"
           },
-          "description": "Repeated field of dynamically typed values."
+          "name":{
+            "description": "The user name.",
+            "type":"string",          
+            "example":"Adrian"
+          }
         }
-      },
-      "description": "`ListValue` is a wrapper around a repeated field of values.\n\nThe JSON representation for `ListValue` is JSON array."
-    },
-    "protobufNullValue": {
-      "type": "string",
-      "enum": [
-        "NULL_VALUE"
-      ],
-      "default": "NULL_VALUE",
-      "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
-    },
-    "protobufStruct": {
-      "type": "object",
-      "properties": {
-        "fields": {
-          "type": "object",
-          "additionalProperties": {
-            "$ref": "#/definitions/protobufValue"
-          },
-          "description": "Unordered map of dynamically typed values."
-        }
-      },
-      "description": "`Struct` represents a structured data value, consisting of fields\nwhich map to dynamically typed values. In some languages, `Struct`\nmight be supported by a native representation. For example, in\nscripting languages like JS a struct is represented as an\nobject. The details of that representation are described together\nwith the proto support for the language.\n\nThe JSON representation for `Struct` is JSON object."
-    },
-    "protobufValue": {
-      "type": "object",
-      "properties": {
-        "bool_value": {
-          "type": "boolean",
-          "format": "boolean",
-          "description": "Represents a boolean value."
-        },
-        "list_value": {
-          "$ref": "#/definitions/protobufListValue",
-          "description": "Represents a repeated `Value`."
-        },
-        "null_value": {
-          "$ref": "#/definitions/protobufNullValue",
-          "description": "Represents a null value."
-        },
-        "number_value": {
-          "type": "number",
-          "format": "double",
-          "description": "Represents a double value."
-        },
-        "string_value": {
-          "type": "string",
-          "format": "string",
-          "description": "Represents a string value."
-        },
-        "struct_value": {
-          "$ref": "#/definitions/protobufStruct",
-          "description": "Represents a structured value."
-        }
-      },
-      "description": "`Value` represents a dynamically typed value which can be either\nnull, a number, a string, a boolean, a recursive struct value, or a\nlist of values. A producer of value is expected to set one of that\nvariants, absence of any variant indicates an error.\n\nThe JSON representation for `Value` is JSON value."
+      }
     }
   }
 }
-
