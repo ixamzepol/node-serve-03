@@ -1,7 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
+const swaggerUi = require('swagger-ui-express');
 const config = require('../../config');
-
+const logger = require('../logger');
 
 
 class ExpressServer {
@@ -18,6 +19,7 @@ class ExpressServer {
         this._notFound();
         this._errrorHandler();
         //this._myAplicattionError(statusCode);// TO DO
+        this._swaggerConfig();
     }
 
     _middlewares() {
@@ -60,12 +62,15 @@ res.status(code).json({
 */
 });
     }
+    _swaggerConfig(){
+        this.app.use(config.swagger.path, swaggerUi.serve, swaggerUi.setup(require('../swagger/swagger.json')));
+    }
 
 
     async start() {
         this.app.listen(this.port, (error) => {
             if(error) {
-                console.log(err);
+                logger.log(err);
                 process.exit(1);
                 return;
             }

@@ -4,7 +4,7 @@ const winston = require('winston');
 
 const transports = [];
 transports.push(
-new winston.transport.Console(),
+new winston.transports.Console(),
 );
 
 const LoggerInstance = winston.createLogger({
