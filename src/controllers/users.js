@@ -61,8 +61,13 @@ const updateUser = (req, res) => {
  * @param {express.Response} res 
  */
 const updatePartialUser = (req, res) => {
+    const { id } = req.params;
+    const user = req.body;
+
+    user.id = id;
     const result = {
-        message: 'User updated with patch'
+        message: 'User updated with patch',
+        user
     }
     res.json(result);
 };
