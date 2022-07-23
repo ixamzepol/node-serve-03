@@ -15,6 +15,8 @@ class ExpressServer {
         this._middlewares();
 
         this._routes();
+        this._notFound();
+        this._errrorHandler();
     }
 
     _middlewares() {
@@ -29,6 +31,27 @@ class ExpressServer {
 
         this.app.use(this.basePathUser, require('../../routes/users'));
     }
+    _notFound(){//armando middleware propio e instanciando error con dos atributos
+        this.app.use((req, res, next) => {
+            const err = new Error("Not Found");
+            err.status = 404; // no necesario
+            err.code = 404;
+            next(err);
+        });    }
+
+    _errrorHandler() {
+this.app.use((err, req, res, next) => {
+const code = err.code || 500;
+const body = {
+    error: {
+        code,
+        message: err.message
+    }
+}
+res.json(body);
+});
+    }
+
 
     async start() {
         this.app.listen(this.port, (error) => {
